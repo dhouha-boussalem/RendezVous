@@ -5,6 +5,8 @@ VisualStudioVersion = 17.10.35013.160
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RendezVous", "RendezVous.csproj", "{7CD6CF2B-E306-4909-930F-C4E26819A21A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RendezVous.Api.Tests", "..\RendezVous.Api.Tests\RendezVous.Api.Tests.csproj", "{FAAF506B-1183-4111-B5E3-C20D71CD114C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{7CD6CF2B-E306-4909-930F-C4E26819A21A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7CD6CF2B-E306-4909-930F-C4E26819A21A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7CD6CF2B-E306-4909-930F-C4E26819A21A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FAAF506B-1183-4111-B5E3-C20D71CD114C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FAAF506B-1183-4111-B5E3-C20D71CD114C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FAAF506B-1183-4111-B5E3-C20D71CD114C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FAAF506B-1183-4111-B5E3-C20D71CD114C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
