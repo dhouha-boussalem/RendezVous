@@ -1,5 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
+using RendezVous.Services;
 
 namespace RendezVous.Controllers
 {
@@ -10,27 +10,17 @@ namespace RendezVous.Controllers
     [Route("[controller]")]
     public class RendezVousController : ControllerBase
     {
-        private static readonly string[] Notes = new[]
-        {
-            "Driving", "Doctor", "Beauty", "Baby"
-        };
-
-        private static readonly string[] Locations = new[]
-        {
-            "Paris", "Lyon", "Marseille", "Toulouse", "Nice"
-        };
-
         private readonly ILogger<RendezVousController> _logger;
-        private readonly Random _random;
+        private readonly IRendezVousService _rendezVousService;
 
-        public RendezVousController(ILogger<RendezVousController> logger)
+        public RendezVousController(ILogger<RendezVousController> logger, IRendezVousService rendezVousService)
         {
             _logger = logger;
-            _random = new Random();
+            _rendezVousService = rendezVousService;
         }
 
         /// <summary>
-        /// Récupère une liste de rendez-vous fictifs.
+        /// Récupère une liste de rendez-vous.
         /// </summary>
         [HttpGet(Name = "GetRendezVous")]
         [ProducesResponseType(typeof(IEnumerable<RendezVous>), StatusCodes.Status200OK)]
@@ -38,22 +28,30 @@ namespace RendezVous.Controllers
         {
             try
             {
-                var rendezVousList = Enumerable.Range(1, 5).Select(index => new RendezVous
-                {
-                    Date = DateTime.Now.AddDays(index),
-                    Subject = $"Subject{index}",
-                    Notes = Notes[_random.Next(Notes.Length)],
-                    Location = Locations[_random.Next(Locations.Length)]
-                })
-                .ToArray();
-
+                var rendezVousList = _rendezVousService.GetAll();
                 return Ok(rendezVousList);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Erreur lors de la génération des rendez-vous.");
+                _logger.LogError(ex, "Erreur lors de la récupération des rendez-vous.");
                 return StatusCode(500, "Une erreur interne est survenue.");
             }
+        }
+
+        /// <summary>
+        /// Ajoute un nouveau rendez-vous.
+        /// </summary>
+        [HttpPost(Name = "AddRendezVous")]
+        [ProducesResponseType(typeof(RendezVous), StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public ActionResult<RendezVous> Add([FromBody] RendezVous rendezVous)
+        {
+            if (rendezVous == null)
+            {
+                return BadRequest("Le rendez-vous ne peut pas être nul.");
+            }
+            _rendezVousService.Add(rendezVous);
+            return CreatedAtRoute("GetRendezVous", new { }, rendezVous);
         }
     }
 }
